@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 2nd Anniversary Kuttyma ❤️</title>
+    <!-- Tailwind CSS for modern responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP for 100% movie-feel cinematic animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Google Fonts: Great Vibes for romantic script & Poppins for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 50%, #f3e5f5 100%);
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+        .romantic-font {
+            font-family: 'Great Vibes', cursive;
+        }
+        /* Pulsing Heartbeat Animation */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.15); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+            60% { transform: scale(1); }
+        }
+        .animate-heartbeat {
+            animation: heartbeat 1.5s infinite ease-in-out;
+        }
+        /* Custom scrollbar hiding */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="relative w-screen h-screen flex items-center justify-center select-none">
+
+    <!-- AUDIO SYNTHESIZER / SOUND HANDLER (Web Audio API for romantic heartbeats & magic chimes) -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playHeartbeatSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.15);
+            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.15);
+        }
+        function playMagicChime() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            let now = audioCtx.currentTime;
+            [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.frequency.setValueAtTime(freq, now + i * 0.08);
+                gain.gain.setValueAtTime(0.2, now + i * 0.08);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.6);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now + i * 0.08);
+                osc.stop(now + i * 0.08 + 0.6);
+            });
+        }
+    </script>
+
+    <!-- SECRET TESTING BUTTON (Bottom-Right Discreet Corner) -->
+    <button onclick="startAnniversaryShow()" class="absolute bottom-3 right-3 z-50 bg-pink-500/20 hover:bg-pink-500 text-pink-700 hover:text-white px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm transition-all duration-300 shadow-sm border border-pink-300">
+        ✨ Test Surprise
+    </button>
+
+    <!-- ==================== SCENE 1: COUNTDOWN SCREEN ==================== -->
+    <div id="scene-countdown" class="absolute inset-0 flex flex-col items-center justify-center z-10 px-4 text-center">
+        <div class="absolute inset-0 bg-gradient-to-br from-pink-50 via-rose-100 to-purple-100 opacity-90 -z-10"></div>
+        
+        <!-- Glowing Heart Icon with Heartbeat -->
+        <div class="mb-6 animate-heartbeat text-pink-500 cursor-pointer" onclick="playHeartbeatSound()">
+            <svg class="w-24 h-24 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+        </div>
+
+        <h1 class="romantic-font text-5xl md:text-6xl text-pink-600 mb-2 drop-shadow-sm">Counting Every Second For Us</h1>
+        <p class="text-gray-600 text-sm md:text-base mb-8 max-w-md font-light">Until our special celebration begins on September 30th, 2026</p>
+
+        <!-- Timer Display Box -->
+        <div class="grid grid-cols-4 gap-3 md:gap-6 bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-pink-200">
+            <div class="flex flex-col items-center">
+                <span id="days" class="text-3xl md:text-4xl font-bold text-pink-600">00</span>
+                <span class="text-xs uppercase tracking-wider text-gray-500 mt-1">Days</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span id="hours" class="text-3xl md:text-4xl font-bold text-pink-600">00</span>
+                <span class="text-xs uppercase tracking-wider text-gray-500 mt-1">Hours</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span id="minutes" class="text-3xl md:text-4xl font-bold text-pink-600">00</span>
+                <span class="text-xs uppercase tracking-wider text-gray-500 mt-1">Mins</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span id="seconds" class="text-3xl md:text-4xl font-bold text-pink-600">00</span>
+                <span class="text-xs uppercase tracking-wider text-gray-500 mt-1">Secs</span>
+            </div>
+        </div>
+
+        <p class="text-xs text-pink-400 mt-6 animate-pulse">Made with infinite love for Kuttyma</p>
+    </div>
+
+    <!-- ==================== SCENE 2-7: CINEMATIC SHOW CONTAINER ==================== -->
+    <div id="cinematic-container" class="absolute inset-0 z-20 hidden overflow-hidden bg-black">
+        
+        <!-- Canvas for Dynamic Particle/Heart Rain & Scenery Effects -->
+        <canvas id="effect-canvas" class="absolute inset-0 pointer-events-none z-10"></canvas>
+
+        <!-- STAGE BACKDROP (Dynamic Gradients & Sunset Elements) -->
+        <div id="stage-bg" class="absolute inset-0 bg-gradient-to-b from-sky-300 via-pink-200 to-rose-300 transition-colors duration-1000"></div>
+
+        <!-- STAGE CONTENT LAYER -->
+        <div id="stage-content" class="relative w-full h-full flex flex-col items-center justify-center">
+
+            <!-- BANNER DROP ELEMENT -->
+            <div id="banner-drop-el" class="absolute -top-32 text-center opacity-0 z-30 transition-all">
+                <div class="bg-pink-600 text-white romantic-font text-5xl md:text-7xl px-8 py-4 rounded-2xl shadow-2xl border-4 border-pink-200 rotate-[-2deg]">
+                    I Love You ❤️
+                </div>
+            </div>
+
+            <!-- CARTOON CHARACTERS (Rapunzel & Flynn Vector/SVG Staging) -->
+            <div id="characters-wrapper" class="relative flex items-center justify-center gap-6 z-20 transition-all duration-700">
+                
+                <!-- Flynn Rider Avatar -->
+                <div id="flynn-char" class="flex flex-col items-center transform transition-transform">
+                    <div class="w-32 h-48 md:w-48 md:h-72 bg-gradient-to-t from-amber-900 to-amber-700 rounded-t-full relative shadow-2xl flex items-center justify-center border-2 border-amber-600">
+                        <span class="text-white font-semibold text-sm md:text-base">Flynn</span>
+                        <!-- Fourth Wall Wink Indicator -->
+                        <div id="flynn-wink" class="absolute -top-8 bg-white text-pink-600 text-xs px-2 py-1 rounded-full shadow-md opacity-0 transition-opacity">
+                            👀 Hey Kuttyma! Look here!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pulsar 150 Black Bike (Appears in Scene 6) -->
+                <div id="pulsar-bike" class="absolute hidden items-center justify-center z-25 scale-75 md:scale-100">
+                    <div class="w-64 h-28 bg-zinc-900 rounded-3xl border-2 border-pink-500 shadow-2xl flex items-center justify-between px-6 relative">
+                        <div class="absolute -top-3 left-6 w-12 h-6 bg-pink-500 rounded-full animate-pulse"></div> <!-- Pink accent -->
+                        <div class="w-12 h-12 bg-black rounded-full border-4 border-zinc-700"></div>
+                        <span class="text-white text-xs font-bold tracking-widest uppercase">Pulsar 150</span>
+                        <div class="w-12 h-12 bg-black rounded-full border-4 border-zinc-700"></div>
+                    </div>
+                </div>
+
+                <!-- Rapunzel Avatar -->
+                <div id="rapunzel-char" class="flex flex-col items-center transform transition-transform">
+                    <div class="w-32 h-48 md:w-48 md:h-72 bg-gradient-to-t from-pink-500 to-purple-500 rounded-t-full relative shadow-2xl flex items-center justify-center border-2 border-pink-300">
+                        <span class="text-white font-semibold text-sm md:text-base">Rapunzel</span>
+                        <div id="rapunzel-shock" class="absolute -top-12 bg-white text-pink-600 text-xs px-3 py-1.5 rounded-xl shadow-lg opacity-0 scale-50 transition-all font-bold">
+                            Omg! 😱✨ Kuttyma, watch this out!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BEACH / DOLPHIN / WHALE SCENERY CONTAINER -->
+            <div id="beach-scene" class="absolute inset-0 opacity-0 pointer-events-none flex flex-col items-center justify-end pb-16 z-25">
+                <!-- Golden Sun / Sunrise lighting -->
+                <div class="absolute top-10 w-48 h-48 bg-amber-200 rounded-full blur-2xl opacity-70"></div>
+                <!-- Animated Letter Container for Dolphins & Whale -->
+                <div id="letter-display-box" class="romantic-font text-6xl md:text-9xl text-white drop-shadow-[0_10px_20px_rgba(236,72,153,0.8)] mb-8 transition-transform">
+                    <!-- Dynamic Letter Injection -->
+                </div>
+            </div>
+
+            <!-- PROPOSAL & RING OVERLAY -->
+            <div id="proposal-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none flex flex-col items-center justify-center z-40 transition-opacity">
+                <div class="bg-white/90 p-8 rounded-3xl shadow-2xl text-center max-w-sm mx-4 border-2 border-pink-300">
+                    <h2 class="romantic-font text-4xl text-pink-600 mb-4">Will You Be Mine Forever?</h2>
+                    <p class="text-gray-700 text-sm mb-6">A magical moment crafted just for you.</p>
+                    <button onclick="acceptProposal()" class="bg-gradient-to-r from-pink-500 to-rose-500 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:scale-105 transition-transform">
+                        💍 Put Ring On Finger
+                    </button>
+                </div>
+            </div>
+
+            <!-- FINAL CINEMATIC WALKAWAY & MESSAGE SCREEN -->
+            <div id="final-walkaway-screen" class="absolute inset-0 bg-gradient-to-b from-rose-900 via-pink-900 to-black opacity-0 pointer-events-none flex flex-col items-center justify-center z-50">
+                <div id="couple-walking-group" class="flex gap-4 items-center justify-center mb-8 transition-all duration-[3000ms] transform scale-100">
+                    <div class="w-16 h-28 bg-amber-700 rounded-t-full shadow-xl"></div>
+                    <div class="w-16 h-28 bg-pink-500 rounded-t-full shadow-xl"></div>
+                </div>
+                <h1 id="final-message-text" class="romantic-font text-3xl md:text-5xl text-pink-200 text-center px-4 opacity-0 transition-opacity duration-1000 drop-shadow-lg">
+                    "Love you so much Kuttyma! I’ll always be there for you."
+                </h1>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ==================== SCRIPT LOGIC & ANIMATION PIPELINE ==================== -->
+    <script>
+        // Target Date: September 30th 2026 00:00:00
+        const targetDate = new Date("September 30, 2026 00:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference <= 0) {
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = String(days).padStart(2, '0');
+            document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+            document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Canvas Particle Engine for Hearts and Sunrise Drizzle
+        const canvas = document.getElementById('effect-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function createHeartParticle() {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: canvas.height + 20,
+                size: Math.random() * 15 + 10,
+                speedY: Math.random() * 2 + 1,
+                speedX: (Math.random() - 0.5) * 1.5,
+                color: Math.random() > 0.5 ? '#ec4899' : '#f472b6',
+                alpha: Math.random() * 0.5 + 0.5
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (Math.random() < 0.1) createHeartParticle();
+
+            particles.forEach((p, index) => {
+                p.y -= p.speedY;
+                p.x += p.speedX;
+                p.alpha -= 0.002;
+
+                if (p.alpha <= 0 || p.y < -20) {
+                    particles.splice(index, 1);
+                    return;
+                }
+
+                ctx.save();
+                ctx.globalAlpha = p.alpha;
+                ctx.fillStyle = p.color;
+                ctx.font = `${p.size}px Arial`;
+                ctx.fillText('❤️', p.x, p.y);
+                ctx.restore();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ==================== CINEMATIC SHOW TRIGGER ====================
+        function startAnniversaryShow() {
+            playMagicChime();
+            document.getElementById('scene-countdown').classList.add('hidden');
+            document.getElementById('cinematic-container').classList.remove('hidden');
+
+            const tl = gsap.timeline();
+
+            // Scene 3 & 4: Giant Banner Pull Down by Flynn & Rapunzel Shock + Fourth Wall Wink
+            tl.to("#banner-drop-el", { top: "15%", opacity: 1, duration: 1.5, ease: "bounce.out" })
+              .to("#flynn-wink", { opacity: 1, scale: 1.1, duration: 0.5 }, "-=0.5")
+              .to("#rapunzel-shock", { opacity: 1, scale: 1, duration: 0.6 }, "-=0.8")
+              
+              // Scene 5 & 6: Bike Scene Transition (Pulsar 150 arrives)
+              .to("#banner-drop-el", { opacity: 0, top: "-30%", duration: 0.8 }, "+=2")
+              .to("#rapunzel-shock", { opacity: 0, duration: 0.3 }, "<")
+              .to("#flynn-wink", { opacity: 0, duration: 0.3 }, "<")
+              .to("#characters-wrapper", { gap: "2rem", duration: 0.5 })
+              .set("#pulsar-bike", { display: "flex", scale: 0, opacity: 0 })
+              .to("#pulsar-bike", { scale: 1, opacity: 1, duration: 0.8, ease: "back.out(1.7)" })
+              
+              // Scene 7: Beach Transition & Dolphin Letter Drop (H - A - P - P - Y)
+              .to("#stage-bg", { background: "linear-gradient(180deg, #fdba74 0%, #f472b6 50%, #1e3a8a 100%)", duration: 1.5 }, "+=1.5")
+              .to("#characters-wrapper", { opacity: 0, duration: 0.5 })
+              .to("#pulsar-bike", { opacity: 0, duration: 0.5 }, "<")
+              .to("#beach-scene", { opacity: 1, duration: 1 }, "-=0.5")
+              .call(() => runDolphinLetterSequence());
+        }
+
+        // Dolphin Letter Jump Animation Sequence
+        function runDolphinLetterSequence() {
+            const letters = ['H', 'A', 'P', 'P', 'Y', ' 2nd ', 'A', 'N', 'N', 'I', 'V', 'E', 'R', 'S', 'A', 'R', 'Y', ' Kuttyma ❤️'];
+            const box = document.getElementById('letter-display-box');
+            let index = 0;
+
+            function showNextLetter() {
+                if (index < letters.length) {
+                    box.innerText = letters[index];
+                    gsap.fromTo(box, { scale: 0.2, opacity: 0, y: 50 }, { scale: 1.2, opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.5)" });
+                    playMagicChime();
+                    index++;
+                    setTimeout(showNextLetter, 800);
+                } else {
+                    // Trigger Proposal Overlay
+                    setTimeout(() => {
+                        document.getElementById('beach-scene').style.opacity = '0';
+                        document.getElementById('proposal-overlay').style.opacity = '1';
+                        document.getElementById('proposal-overlay').style.pointerEvents = 'auto';
+                    }, 1000);
+                }
+            }
+            showNextLetter();
+        }
+
+        // Final Cinematic Walkaway & Shrinking Effect
+        function acceptProposal() {
+            playMagicChime();
+            const proposalOverlay = document.getElementById('proposal-overlay');
+            const finalScreen = document.getElementById('final-walkaway-screen');
+            const coupleGroup = document.getElementById('couple-walking-group');
+            const finalMsg = document.getElementById('final-message-text');
+
+            proposalOverlay.style.opacity = '0';
+            proposalOverlay.style.pointerEvents = 'none';
+
+            finalScreen.style.opacity = '1';
+            finalScreen.style.pointerEvents = 'auto';
+
+            // Real Camera Depth Effect: Couple stays in place while scale smoothly shrinks over 3 seconds
+            gsap.to(coupleGroup, {
+                scale: 0.35,
+                y: -40,
+                duration: 3,
+                ease: "power2.inOut",
+                onComplete: () => {
+                    // Fade in final romantic message
+                    finalMsg.style.opacity = '1';
+                    
+                    // Loop back to initial countdown page after 6 seconds
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 6000);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
