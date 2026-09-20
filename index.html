@@ -1,100 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our 2nd Anniversary - Selva & Kuttyma</title>
-    <!-- Tailwind CSS for modern responsive styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- GSAP for smooth animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #0b0f19;
-            color: #ffffff;
-            overflow-x: hidden;
-        }
-        .glow-pink {
-            text-shadow: 0 0 20px rgba(236, 72, 153, 0.6), 0 0 40px rgba(236, 72, 153, 0.4);
-        }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col items-center justify-center relative">
-
-    <!-- BACKGROUND AMBIENCE -->
-    <div class="absolute inset-0 bg-gradient-to-br from-purple-950/40 via-black to-pink-950/30 pointer-events-none z-0"></div>
-
-    <!-- SECTION 1: COUNTDOWN SCREEN -->
-    <div id="countdown-section" class="relative z-10 text-center px-4 max-w-2xl mx-auto transition-opacity duration-1000">
-        <h1 class="text-3xl md:text-5xl font-bold mb-4 glow-pink text-pink-300">Counting Down to Our Special Day</h1>
-        <p class="text-gray-300 mb-8 text-sm md:text-base">Something magical is waiting for you, Kuttyma...</p>
-        
-        <!-- Timer Grid -->
-        <div class="grid grid-cols-4 gap-3 md:gap-6 mb-8">
-            <div class="bg-white/5 border border-pink-500/20 rounded-2xl p-4 backdrop-blur-md">
-                <span id="days" class="text-3xl md:text-5xl font-bold text-pink-400">00</span>
-                <p class="text-xs uppercase tracking-widest text-gray-400 mt-1">Days</p>
-            </div>
-            <div class="bg-white/5 border border-pink-500/20 rounded-2xl p-4 backdrop-blur-md">
-                <span id="hours" class="text-3xl md:text-5xl font-bold text-pink-400">00</span>
-                <p class="text-xs uppercase tracking-widest text-gray-400 mt-1">Hours</p>
-            </div>
-            <div class="bg-white/5 border border-pink-500/20 rounded-2xl p-4 backdrop-blur-md">
-                <span id="minutes" class="text-3xl md:text-5xl font-bold text-pink-400">00</span>
-                <p class="text-xs uppercase tracking-widest text-gray-400 mt-1">Minutes</p>
-            </div>
-            <div class="bg-white/5 border border-pink-500/20 rounded-2xl p-4 backdrop-blur-md">
-                <span id="seconds" class="text-3xl md:text-5xl font-bold text-pink-400">00</span>
-                <p class="text-xs uppercase tracking-widest text-gray-400 mt-1">Seconds</p>
-            </div>
-        </div>
-
-        <!-- Bypass button for testing preview if needed -->
-        <button onclick="triggerBigHeartBlast()" class="text-xs text-pink-400/60 hover:text-pink-400 underline transition">
-            [ Skip Countdown for Testing ]
-        </button>
-    </div>
-
-    <!-- SECTION 2: HEART BLAST TRANSITION EFFECT -->
-    <div id="heart-blast" class="fixed inset-0 z-50 bg-pink-600 flex items-center justify-center hidden opacity-0 pointer-events-none">
-        <div class="text-6xl md:text-9xl animate-ping">💖</div>
-    </div>
-
-    <!-- SECTION 3: CINEMATIC VIDEO PLAYER -->
-    <div id="video-section" class="fixed inset-0 z-20 bg-black flex items-center justify-center hidden opacity-0">
-        <video id="anniversary-video" class="w-full h-full object-contain" playsinline>
-            <source src="anniversary-video.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <!-- Custom Play Overlay if autoplay is restricted by browser -->
-        <button id="play-btn" onclick="startVideoPlayback()" class="absolute bg-pink-600 hover:bg-pink-500 text-white font-bold px-8 py-4 rounded-full shadow-lg text-lg transition transform hover:scale-105 hidden">
-            Play Our Cinematic Story 🎬
-        </button>
-    </div>
-
-    <!-- SECTION 4: FINAL ANNIVERSARY & PROPOSAL COMPLETION SCREEN -->
-    <div id="completion-section" class="fixed inset-0 z-30 bg-black/95 flex flex-col items-center justify-center text-center px-4 hidden opacity-0">
-        <div class="max-w-xl mx-auto space-y-6">
-            <h2 class="text-4xl md:text-6xl font-bold text-pink-400 glow-pink">Happy 2nd Anniversary!</h2>
-            <p class="text-lg text-gray-300 leading-relaxed">
-                "Love you so much Kuttyma! I’ll always be there for you through every single chapter of our lives."
-            </p>
-            <div class="pt-4">
-                <div class="inline-block p-4 bg-pink-500/10 border border-pink-500/30 rounded-2xl text-pink-300">
-                    💍 Forever & Always Together
-                </div>
-            </div>
-            <div>
-                <button onclick="replayExperience()" class="mt-6 text-sm text-gray-400 hover:text-white underline transition">
-                    Replay Cinematic Story
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script>
+<script>
         // TARGET DATE: September 30, 2026 00:00:00
         const targetDate = new Date("September 30, 2026 00:00:00").getTime();
 
@@ -112,7 +16,6 @@
 
             if (difference <= 0) {
                 clearInterval(timerInterval);
-                // Time has arrived! Automatically transition if not already triggered
                 if (countdownSection.style.display !== "none") {
                     triggerBigHeartBlast();
                 }
@@ -133,7 +36,6 @@
         // Check on load if date has already passed
         window.addEventListener("DOMContentLoaded", () => {
             if (new Date().getTime() >= targetDate) {
-                // Hide countdown immediately on load if time has arrived
                 countdownSection.style.display = "none";
                 triggerBigHeartBlast();
             }
@@ -144,7 +46,6 @@
                 countdownSection.style.display = "none";
                 heartBlast.classList.remove("hidden");
                 
-                // Heart blast zoom animation
                 gsap.to(heartBlast, { opacity: 1, duration: 0.3 });
                 setTimeout(() => {
                     gsap.to(heartBlast, { opacity: 0, duration: 0.5, onComplete: () => {
@@ -160,10 +61,15 @@
             gsap.to(videoSection, { opacity: 1, duration: 1 });
             
             anniversaryVideo.currentTime = 0;
-            anniversaryVideo.play().catch(() => {
-                // If browser blocks autoplay, show manual play button
-                playBtn.classList.remove("hidden");
-            });
+            
+            // Attempt to play and catch browser autoplay restrictions
+            let playPromise = anniversaryVideo.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    // Autoplay was blocked: explicitly show the play button
+                    playBtn.classList.remove("hidden");
+                });
+            }
         }
 
         function startVideoPlayback() {
@@ -187,5 +93,3 @@
             }});
         }
     </script>
-</body>
-</html>
