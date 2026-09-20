@@ -3,300 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy 2nd Anniversary Kuttyma ❤️</title>
-    <!-- Tailwind CSS -->
+    <title>Our 2nd Anniversary - Selva & Kuttyma</title>
+    <!-- Tailwind CSS for modern responsive styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- GSAP for Cinematic Timeline Control -->
+    <!-- GSAP for smooth animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <!-- Lottie Animation Player for Cinematic Vector Graphics -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
         body {
             font-family: 'Poppins', sans-serif;
-            background: #0f051d;
-            overflow: hidden;
-            user-select: none;
+            background-color: #0b0f19;
+            color: #ffffff;
+            overflow-x: hidden;
         }
-        .romantic-font {
-            font-family: 'Great Vibes', cursive;
-        }
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            15% { transform: scale(1.18); }
-            30% { transform: scale(1); }
-            45% { transform: scale(1.18); }
-            60% { transform: scale(1); }
-        .animate-heartbeat {
-            animation: heartbeat 1.4s infinite ease-in-out;
-        }
-        /* Realistic Glossy Paint Finish for Pulsar 150 */
-        .pulsar-body {
-            background: linear-gradient(135deg, #222 0%, #000 50%, #111 100%);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 2px 5px rgba(255,255,255,0.2);
+        .glow-pink {
+            text-shadow: 0 0 20px rgba(236, 72, 153, 0.6), 0 0 40px rgba(236, 72, 153, 0.4);
         }
     </style>
 </head>
-<body class="relative w-screen h-screen flex items-center justify-center">
+<body class="min-h-screen flex flex-col items-center justify-center relative">
 
-    <!-- AUDIO SYNTHESIZER -->
-    <script>
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playHeartbeatSound() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            let osc = audioCtx.createOscillator();
-            let gain = audioCtx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(55, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(25, audioCtx.currentTime + 0.18);
-            gain.gain.setValueAtTime(0.6, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.18);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.18);
-        }
-        function playMagicChime() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            let now = audioCtx.currentTime;
-            [523.25, 659.25, 783.99, 1046.50, 1318.51].forEach((freq, i) => {
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.frequency.setValueAtTime(freq, now + i * 0.07);
-                gain.gain.setValueAtTime(0.15, now + i * 0.07);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.07 + 0.5);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start(now + i * 0.07);
-                osc.stop(now + i * 0.07 + 0.5);
-            });
-        }
-    </script>
+    <!-- BACKGROUND AMBIENCE -->
+    <div class="absolute inset-0 bg-gradient-to-br from-purple-950/40 via-black to-pink-950/30 pointer-events-none z-0"></div>
 
-    <!-- SECRET TESTING BUTTON -->
-    <button onclick="startAnniversaryShow()" class="absolute bottom-4 right-4 z-50 bg-pink-500/30 hover:bg-pink-600 text-pink-200 hover:text-white px-4 py-2 rounded-full text-xs font-semibold backdrop-blur-md transition-all duration-300 border border-pink-400/50 shadow-lg">
-        ✨ Test Movie Scene
-    </button>
-
-    <!-- ==================== SCENE 1: COUNTDOWN ==================== -->
-    <div id="scene-countdown" class="absolute inset-0 flex flex-col items-center justify-center z-10 px-4 text-center">
-        <div class="absolute inset-0 bg-gradient-to-br from-pink-950 via-purple-950 to-slate-950 opacity-95 -z-10"></div>
+    <!-- SECTION 1: COUNTDOWN SCREEN -->
+    <div id="countdown-section" class="relative z-10 text-center px-4 max-w-2xl mx-auto transition-opacity duration-1000">
+        <h1 class="text-3xl md:text-5xl font-bold mb-4 glow-pink text-pink-300">Counting Down to Our Special Day</h1>
+        <p class="text-gray-300 mb-8 text-sm md:text-base">Something magical is waiting for you, Kuttyma...</p>
         
-        <div class="mb-6 animate-heartbeat text-pink-500 cursor-pointer" onclick="playHeartbeatSound()">
-            <svg class="w-28 h-28 drop-shadow-[0_0_20px_rgba(236,72,153,0.6)]" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
+        <!-- Timer Grid -->
+        <div class="grid grid-cols-4 gap-3 md:gap-6 mb-8">
+            <div class="bg-white/5 border border-pink-500/20 rounded-2xl p-4 backdrop-blur-md">
+                <span id="days" class="text-3xl md:text-5xl font-bold text-pink-400">00</span>
+                <p class="text-xs uppercase tracking-widest text-gray-400 mt-1">Days</p>
+            </div>
+            <div class="bg-white/5 border border-pink-500/20 rounded-2xl p-4 backdrop-blur-md">
+                <span id="hours" class="text-3xl md:text-5xl font-bold text-pink-400">00</span>
+                <p class="text-xs uppercase tracking-widest text-gray-400 mt-1">Hours</p>
+            </div>
+            <div class="bg-white/5 border border-pink-500/20 rounded-2xl p-4 backdrop-blur-md">
+                <span id="minutes" class="text-3xl md:text-5xl font-bold text-pink-400">00</span>
+                <p class="text-xs uppercase tracking-widest text-gray-400 mt-1">Minutes</p>
+            </div>
+            <div class="bg-white/5 border border-pink-500/20 rounded-2xl p-4 backdrop-blur-md">
+                <span id="seconds" class="text-3xl md:text-5xl font-bold text-pink-400">00</span>
+                <p class="text-xs uppercase tracking-widest text-gray-400 mt-1">Seconds</p>
+            </div>
         </div>
 
-        <h1 class="romantic-font text-6xl md:text-7xl text-pink-400 mb-2 drop-shadow-md">Our Forever Countdown</h1>
-        <p class="text-pink-200/70 text-sm md:text-base mb-8 font-light">Target Arrival: September 30th, 2026 • 00:00:00</p>
-
-        <div class="grid grid-cols-4 gap-3 md:gap-6 bg-black/40 backdrop-blur-xl p-6 md:p-8 rounded-3xl shadow-2xl border border-pink-500/30">
-            <div class="flex flex-col items-center"><span id="days" class="text-3xl md:text-5xl font-bold text-pink-400">00</span><span class="text-[10px] md:text-xs uppercase tracking-widest text-pink-200/60 mt-1">Days</span></div>
-            <div class="flex flex-col items-center"><span id="hours" class="text-3xl md:text-5xl font-bold text-pink-400">00</span><span class="text-[10px] md:text-xs uppercase tracking-widest text-pink-200/60 mt-1">Hours</span></div>
-            <div class="flex flex-col items-center"><span id="minutes" class="text-3xl md:text-5xl font-bold text-pink-400">00</span><span class="text-[10px] md:text-xs uppercase tracking-widest text-pink-200/60 mt-1">Mins</span></div>
-            <div class="flex flex-col items-center"><span id="seconds" class="text-3xl md:text-5xl font-bold text-pink-400">00</span><span class="text-[10px] md:text-xs uppercase tracking-widest text-pink-200/60 mt-1">Secs</span></div>
-        </div>
-        <p class="text-xs text-pink-400/80 mt-6 tracking-wide">Built with absolute movie-grade precision for Kuttyma</p>
+        <!-- Bypass button for testing preview if needed -->
+        <button onclick="triggerBigHeartBlast()" class="text-xs text-pink-400/60 hover:text-pink-400 underline transition">
+            [ Skip Countdown for Testing ]
+        </button>
     </div>
 
-    <!-- ==================== CINEMATIC CONTAINER ==================== -->
-    <div id="cinematic-container" class="absolute inset-0 z-20 hidden overflow-hidden bg-black">
-        <canvas id="effect-canvas" class="absolute inset-0 pointer-events-none z-10"></canvas>
-        <div id="stage-bg" class="absolute inset-0 bg-gradient-to-b from-indigo-950 via-purple-900 to-pink-900 transition-colors duration-1000"></div>
+    <!-- SECTION 2: HEART BLAST TRANSITION EFFECT -->
+    <div id="heart-blast" class="fixed inset-0 z-50 bg-pink-600 flex items-center justify-center hidden opacity-0 pointer-events-none">
+        <div class="text-6xl md:text-9xl animate-ping">💖</div>
+    </div>
 
-        <div id="stage-content" class="relative w-full h-full flex flex-col items-center justify-center">
+    <!-- SECTION 3: CINEMATIC VIDEO PLAYER -->
+    <div id="video-section" class="fixed inset-0 z-20 bg-black flex items-center justify-center hidden opacity-0">
+        <video id="anniversary-video" class="w-full h-full object-contain" playsinline>
+            <source src="anniversary-video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <!-- Custom Play Overlay if autoplay is restricted by browser -->
+        <button id="play-btn" onclick="startVideoPlayback()" class="absolute bg-pink-600 hover:bg-pink-500 text-white font-bold px-8 py-4 rounded-full shadow-lg text-lg transition transform hover:scale-105 hidden">
+            Play Our Cinematic Story 🎬
+        </button>
+    </div>
 
-            <!-- GIANT BANNER -->
-            <div id="banner-drop-el" class="absolute -top-40 text-center opacity-0 z-30">
-                <div class="bg-gradient-to-r from-pink-600 to-rose-600 text-white romantic-font text-6xl md:text-8xl px-12 py-6 rounded-3xl shadow-[0_25px_60px_rgba(236,72,153,0.5)] border-4 border-pink-300 rotate-[-1deg]">
-                    I Love You ❤️
+    <!-- SECTION 4: FINAL ANNIVERSARY & PROPOSAL COMPLETION SCREEN -->
+    <div id="completion-section" class="fixed inset-0 z-30 bg-black/95 flex flex-col items-center justify-center text-center px-4 hidden opacity-0">
+        <div class="max-w-xl mx-auto space-y-6">
+            <h2 class="text-4xl md:text-6xl font-bold text-pink-400 glow-pink">Happy 2nd Anniversary!</h2>
+            <p class="text-lg text-gray-300 leading-relaxed">
+                "Love you so much Kuttyma! I’ll always be there for you through every single chapter of our lives."
+            </p>
+            <div class="pt-4">
+                <div class="inline-block p-4 bg-pink-500/10 border border-pink-500/30 rounded-2xl text-pink-300">
+                    💍 Forever & Always Together
                 </div>
             </div>
-
-            <!-- CARTOON CHARACTERS & STAGING -->
-            <div id="characters-wrapper" class="relative flex items-center justify-center gap-12 z-20 transition-all duration-700">
-                
-                <!-- Flynn Rider (Detailed Custom Vector Representation) -->
-                <div id="flynn-char" class="flex flex-col items-center transform relative">
-                    <div class="w-36 h-56 md:w-52 md:h-80 bg-gradient-to-t from-amber-950 via-amber-800 to-amber-600 rounded-t-full relative shadow-2xl flex flex-col items-center justify-start pt-6 border-2 border-amber-500/50">
-                        <!-- Flynn Face/Hair detail -->
-                        <div class="w-16 h-16 bg-amber-200 rounded-full mb-2 shadow-inner border border-amber-400"></div>
-                        <span class="text-amber-100 font-bold text-sm tracking-wider">Flynn Rider</span>
-                        <div id="flynn-wink" class="absolute -top-12 bg-white/95 text-pink-600 text-xs md:text-sm px-3 py-1.5 rounded-2xl shadow-xl opacity-0 whitespace-nowrap font-bold border border-pink-200">
-                            😉 Hey Kuttyma, look here!
-                        </div>
-                    </div>
-                </div>
-
-                <!-- REALISTIC BLACK PULSAR 150 BIKE -->
-                <div id="pulsar-bike" class="absolute hidden flex-col items-center justify-center z-25 scale-90 md:scale-100">
-                    <div class="w-80 h-36 pulsar-body rounded-2xl border-2 border-pink-500/50 shadow-[0_15px_40px_rgba(0,0,0,0.9)] flex items-center justify-between px-6 relative">
-                        <!-- Neon Pink Accents (25% Rule) -->
-                        <div class="absolute -top-3 left-8 w-16 h-6 bg-pink-500 rounded-full shadow-[0_0_15px_#ec4899] animate-pulse"></div>
-                        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 text-[10px] tracking-widest text-pink-400 font-bold uppercase">Bajaj Pulsar 150 • Midnight Black</div>
-                        <!-- Wheels -->
-                        <div class="w-16 h-16 bg-zinc-950 rounded-full border-4 border-zinc-700 shadow-inner flex items-center justify-center"><div class="w-6 h-6 bg-pink-500/40 rounded-full"></div></div>
-                        <div class="w-16 h-16 bg-zinc-950 rounded-full border-4 border-zinc-700 shadow-inner flex items-center justify-center"><div class="w-6 h-6 bg-pink-500/40 rounded-full"></div></div>
-                    </div>
-                </div>
-
-                <!-- Rapunzel (Detailed Custom Vector Representation) -->
-                <div id="rapunzel-char" class="flex flex-col items-center transform relative">
-                    <div class="w-36 h-56 md:w-52 md:h-80 bg-gradient-to-t from-purple-950 via-pink-600 to-pink-400 rounded-t-full relative shadow-2xl flex flex-col items-center justify-start pt-6 border-2 border-pink-300/50">
-                        <!-- Rapunzel Hair/Face detail -->
-                        <div class="w-16 h-16 bg-amber-100 rounded-full mb-2 shadow-inner border border-amber-300"></div>
-                        <span class="text-white font-bold text-sm tracking-wider">Rapunzel</span>
-                        <div id="rapunzel-shock" class="absolute -top-14 bg-white/95 text-pink-600 text-xs md:text-sm px-4 py-2 rounded-2xl shadow-xl opacity-0 scale-50 font-bold border border-pink-200 whitespace-nowrap">
-                            😱✨ Omg look at this surprise!
-                        </div>
-                    </div>
-                </div>
+            <div>
+                <button onclick="replayExperience()" class="mt-6 text-sm text-gray-400 hover:text-white underline transition">
+                    Replay Cinematic Story
+                </button>
             </div>
-
-            <!-- BEACH / DOLPHIN / WHALE SCENERY -->
-            <div id="beach-scene" class="absolute inset-0 opacity-0 pointer-events-none flex flex-col items-center justify-end pb-20 z-25">
-                <div class="absolute top-12 w-64 h-64 bg-amber-300/40 rounded-full blur-3xl"></div>
-                <div class="flex flex-col items-center justify-center text-center px-4">
-                    <div id="letter-display-box" class="romantic-font text-6xl md:text-9xl text-white drop-shadow-[0_15px_30px_rgba(236,72,153,0.9)]"></div>
-                    <div id="anniversary-date-tag" class="romantic-font text-3xl md:text-5xl text-pink-200 opacity-0 transform translate-y-6 transition-all duration-700 mt-3 drop-shadow-lg">
-                        30 Sep 2026
-                    </div>
-                </div>
-            </div>
-
-            <!-- PROPOSAL & RING OVERLAY -->
-            <div id="proposal-overlay" class="absolute inset-0 bg-black/70 backdrop-blur-md opacity-0 pointer-events-none flex flex-col items-center justify-center z-40">
-                <div class="bg-white/95 p-8 md:p-10 rounded-3xl shadow-2xl text-center max-w-md mx-4 border-2 border-pink-400">
-                    <h2 class="romantic-font text-5xl text-pink-600 mb-3">Will You Marry Me, Kuttyma?</h2>
-                    <p class="text-gray-600 text-sm md:text-base mb-8">Every second with you is a cinematic masterpiece.</p>
-                    <button onclick="acceptProposal()" class="bg-gradient-to-r from-pink-500 to-rose-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:scale-105 transition-transform">
-                        💍 Accept Ring & Seal Forever
-                    </button>
-                </div>
-            </div>
-
-            <!-- CINEMATIC WALKAWAY -->
-            <div id="final-walkaway-screen" class="absolute inset-0 bg-gradient-to-b from-rose-950 via-pink-950 to-black opacity-0 pointer-events-none flex flex-col items-center justify-center z-50">
-                <div id="couple-walking-group" class="flex gap-6 items-center justify-center mb-8 transform scale-100">
-                    <div class="w-20 h-32 bg-amber-800 rounded-t-full shadow-2xl border border-amber-600"></div>
-                    <div class="w-20 h-32 bg-pink-500 rounded-t-full shadow-2xl border border-pink-300"></div>
-                </div>
-                <h1 id="final-message-text" class="romantic-font text-4xl md:text-6xl text-pink-200 text-center px-4 opacity-0 transition-opacity duration-1000 drop-shadow-[0_0_25px_rgba(236,72,153,0.8)]">
-                    "Love you so much Kuttyma! I’ll always be there for you."
-                </h1>
-            </div>
-
         </div>
     </div>
 
     <script>
+        // TARGET DATE: September 30, 2026 00:00:00
         const targetDate = new Date("September 30, 2026 00:00:00").getTime();
-        function updateCountdown() {
+
+        const countdownSection = document.getElementById("countdown-section");
+        const heartBlast = document.getElementById("heart-blast");
+        const videoSection = document.getElementById("video-section");
+        const anniversaryVideo = document.getElementById("anniversary-video");
+        const playBtn = document.getElementById("play-btn");
+        const completionSection = document.getElementById("completion-section");
+
+        // Update countdown timer every second
+        const timerInterval = setInterval(() => {
             const now = new Date().getTime();
-            const diff = targetDate - now;
-            if (diff <= 0) return;
-            document.getElementById("days").innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
-            document.getElementById("hours").innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-            document.getElementById("minutes").innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-            document.getElementById("seconds").innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
-        }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+            const difference = targetDate - now;
 
-        const canvas = document.getElementById('effect-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (Math.random() < 0.12) {
-                particles.push({
-                    x: Math.random() * canvas.width, y: canvas.height + 20,
-                    size: Math.random() * 16 + 10, speedY: Math.random() * 2.5 + 1,
-                    speedX: (Math.random() - 0.5) * 1.8, color: Math.random() > 0.4 ? '#ec4899' : '#f472b6', alpha: Math.random() * 0.6 + 0.4
-                });
-            }
-            particles.forEach((p, index) => {
-                p.y -= p.speedY; p.x += p.speedX; p.alpha -= 0.0018;
-                if (p.alpha <= 0 || p.y < -20) { particles.splice(index, 1); return; }
-                ctx.save(); ctx.globalAlpha = p.alpha; ctx.fillStyle = p.color;
-                ctx.font = `${p.size}px Arial`; ctx.fillText('❤️', p.x, p.y); ctx.restore();
-            });
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-
-        function startAnniversaryShow() {
-            playMagicChime();
-            document.getElementById('scene-countdown').classList.add('hidden');
-            document.getElementById('cinematic-container').classList.remove('hidden');
-
-            const tl = gsap.timeline();
-            tl.to("#banner-drop-el", { top: "12%", opacity: 1, duration: 1.6, ease: "bounce.out" })
-              .to("#flynn-wink", { opacity: 1, scale: 1.05, duration: 0.5 }, "-=0.6")
-              .to("#rapunzel-shock", { opacity: 1, scale: 1, duration: 0.6 }, "-=0.9")
-              .to("#banner-drop-el", { opacity: 0, top: "-35%", duration: 0.8 }, "+=2.2")
-              .to("#rapunzel-shock", { opacity: 0, duration: 0.3 }, "<")
-              .to("#flynn-wink", { opacity: 0, duration: 0.3 }, "<")
-              .to("#characters-wrapper", { gap: "3rem", duration: 0.5 })
-              .set("#pulsar-bike", { display: "flex", scale: 0, opacity: 0 })
-              .to("#pulsar-bike", { scale: 1, opacity: 1, duration: 0.8, ease: "back.out(1.7)" })
-              .to("#stage-bg", { background: "linear-gradient(180deg, #fbbf24 0%, #ec4899 50%, #1e1b4b 100%)", duration: 1.8 }, "+=1.8")
-              .to("#characters-wrapper", { opacity: 0, duration: 0.5 })
-              .to("#pulsar-bike", { opacity: 0, duration: 0.5 }, "<")
-              .to("#beach-scene", { opacity: 1, duration: 1 }, "-=0.5")
-              .call(() => runDolphinLetterSequence());
-        }
-
-        function runDolphinLetterSequence() {
-            const letters = ['H', 'A', 'P', 'P', 'Y', ' 2nd ', 'A', 'N', 'N', 'I', 'V', 'E', 'R', 'S', 'A', 'R', 'Y', ' Kuttyma ❤️'];
-            const box = document.getElementById('letter-display-box');
-            const dateTag = document.getElementById('anniversary-date-tag');
-            let index = 0;
-
-            function showNextLetter() {
-                if (index < letters.length) {
-                    box.innerText = letters[index];
-                    gsap.fromTo(box, { scale: 0.2, opacity: 0, y: 60 }, { scale: 1.25, opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.6)" });
-                    playMagicChime();
-                    index++;
-                    setTimeout(showNextLetter, 750);
-                } else {
-                    gsap.to(dateTag, { opacity: 1, y: 0, duration: 1, ease: "power2.out" });
-                    setTimeout(() => {
-                        document.getElementById('beach-scene').style.opacity = '0';
-                        document.getElementById('proposal-overlay').style.opacity = '1';
-                        document.getElementById('proposal-overlay').style.pointerEvents = 'auto';
-                    }, 3200);
+            if (difference <= 0) {
+                clearInterval(timerInterval);
+                // Time has arrived! Automatically transition if not already triggered
+                if (countdownSection.style.display !== "none") {
+                    triggerBigHeartBlast();
                 }
+                return;
             }
-            showNextLetter();
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = String(days).padStart(2, '0');
+            document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+            document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+        }, 1000);
+
+        // Check on load if date has already passed
+        window.addEventListener("DOMContentLoaded", () => {
+            if (new Date().getTime() >= targetDate) {
+                // Hide countdown immediately on load if time has arrived
+                countdownSection.style.display = "none";
+                triggerBigHeartBlast();
+            }
+        });
+
+        function triggerBigHeartBlast() {
+            gsap.to(countdownSection, { opacity: 0, duration: 0.5, onComplete: () => {
+                countdownSection.style.display = "none";
+                heartBlast.classList.remove("hidden");
+                
+                // Heart blast zoom animation
+                gsap.to(heartBlast, { opacity: 1, duration: 0.3 });
+                setTimeout(() => {
+                    gsap.to(heartBlast, { opacity: 0, duration: 0.5, onComplete: () => {
+                        heartBlast.classList.add("hidden");
+                        launchVideoPlayer();
+                    }});
+                }, 1200);
+            }});
         }
 
-        function acceptProposal() {
-            playMagicChime();
-            const proposalOverlay = document.getElementById('proposal-overlay');
-            const finalScreen = document.getElementById('final-walkaway-screen');
-            const coupleGroup = document.getElementById('couple-walking-group');
-            const finalMsg = document.getElementById('final-message-text');
-
-            proposalOverlay.style.opacity = '0';
-            proposalOverlay.style.pointerEvents = 'none';
-            finalScreen.style.opacity = '1';
-            finalScreen.style.pointerEvents = 'auto';
-
-            gsap.to(coupleGroup, {
-                scale: 0.3, y: -50, duration: 3.2, ease: "power2.inOut",
-                onComplete: () => {
-                    finalMsg.style.opacity = '1';
-                    setTimeout(() => { window.location.reload(); }, 6000);
-                }
+        function launchVideoPlayer() {
+            videoSection.classList.remove("hidden");
+            gsap.to(videoSection, { opacity: 1, duration: 1 });
+            
+            anniversaryVideo.currentTime = 0;
+            anniversaryVideo.play().catch(() => {
+                // If browser blocks autoplay, show manual play button
+                playBtn.classList.remove("hidden");
             });
+        }
+
+        function startVideoPlayback() {
+            playBtn.classList.add("hidden");
+            anniversaryVideo.play();
+        }
+
+        // When video ends, transition smoothly to the completion/proposal text screen
+        anniversaryVideo.addEventListener("ended", () => {
+            gsap.to(videoSection, { opacity: 0, duration: 1, onComplete: () => {
+                videoSection.classList.add("hidden");
+                completionSection.classList.remove("hidden");
+                gsap.to(completionSection, { opacity: 1, duration: 1 });
+            }});
+        });
+
+        function replayExperience() {
+            gsap.to(completionSection, { opacity: 0, duration: 0.5, onComplete: () => {
+                completionSection.classList.add("hidden");
+                launchVideoPlayer();
+            }});
         }
     </script>
 </body>
