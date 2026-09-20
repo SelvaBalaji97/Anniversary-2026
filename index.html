@@ -42,7 +42,8 @@
 
     <!-- SECTION 1: COUNTDOWN SCREEN -->
     <div id="countdown-section" class="relative z-10 text-center px-4 max-w-2xl mx-auto transition-opacity duration-1000">
-        <h1 class="text-3xl md:text-5xl font-bold mb-4 glow-pink text-pink-300">Counting Down to Our Special Day</h1>
+        <!-- Hold this heading for 10 seconds to trigger testing mode -->
+        <h1 id="secret-trigger" class="text-3xl md:text-5xl font-bold mb-4 glow-pink text-pink-300 cursor-default select-none">Counting Down to Our Special Day</h1>
         <p class="text-gray-300 mb-8 text-sm md:text-base">Something magical is waiting for you, Kuttyma...</p>
         
         <!-- Timer Grid -->
@@ -64,11 +65,6 @@
                 <p class="text-xs uppercase tracking-widest text-gray-400 mt-1">Seconds</p>
             </div>
         </div>
-
-        <!-- Bypass button for testing preview if needed -->
-        <button onclick="triggerBigHeartBlast()" class="text-xs text-pink-400/60 hover:text-pink-400 underline transition">
-            [ Skip Countdown for Testing ]
-        </button>
     </div>
 
     <!-- SECTION 2: HEART BLAST TRANSITION EFFECT -->
@@ -120,7 +116,8 @@
         const completionSection = document.getElementById("completion-section");
 
         function verifyPasscode() {
-            const input = document.getElementById("passcode-input").value;
+            const inputField = document.getElementById("passcode-input");
+            const input = inputField ? inputField.value : "";
             const secretCode = "sp291406"; 
 
             if (input === secretCode) {
@@ -134,10 +131,50 @@
             }
         }
 
-        // Allow pressing "Enter" key on keyboard to submit passcode
-        document.getElementById("passcode-input").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                verifyPasscode();
+        // Safe event listener initialization on DOM load
+        document.addEventListener("DOMContentLoaded", () => {
+            const passInput = document.getElementById("passcode-input");
+            if (passInput) {
+                passInput.addEventListener("keypress", function(event) {
+                    if (event.key === "Enter") {
+                        verifyPasscode();
+                    }
+                });
+            }
+
+            // Hidden 10-second long press testing trigger on the main heading
+            const secretTrigger = document.getElementById("secret-trigger");
+            let holdTimer = null;
+
+            if (secretTrigger) {
+                const startHold = () => {
+                    holdTimer = setTimeout(() => {
+                        if (countdownSection && countdownSection.style.display !== "none") {
+                            triggerBigHeartBlast();
+                        }
+                    }, 10000); // 10,000 milliseconds = 10 seconds
+                };
+
+                const cancelHold = () => {
+                    if (holdTimer) {
+                        clearTimeout(holdTimer);
+                        holdTimer = null;
+                    }
+                };
+
+                // Support both mouse (PC) and touch (Mobile) events
+                secretTrigger.addEventListener("mousedown", startHold);
+                secretTrigger.addEventListener("mouseup", cancelHold);
+                secretTrigger.addEventListener("mouseleave", cancelHold);
+
+                secretTrigger.addEventListener("touchstart", startHold);
+                secretTrigger.addEventListener("touchend", cancelHold);
+            }
+
+            // Check if date has already passed
+            if (new Date().getTime() >= targetDate) {
+                if (countdownSection) countdownSection.style.display = "none";
+                triggerBigHeartBlast();
             }
         });
 
@@ -148,7 +185,7 @@
 
             if (difference <= 0) {
                 clearInterval(timerInterval);
-                if (countdownSection.style.display !== "none") {
+                if (countdownSection && countdownSection.style.display !== "none") {
                     triggerBigHeartBlast();
                 }
                 return;
@@ -159,29 +196,27 @@
             const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-            document.getElementById("days").innerText = String(days).padStart(2, '0');
-            document.getElementById("hours").innerText = String(hours).padStart(2, '0');
-            document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
-            document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+            const daysEl = document.getElementById("days");
+            const hoursEl = document.getElementById("hours");
+            const minsEl = document.getElementById("minutes");
+            const secsEl = document.getElementById("seconds");
+
+            if (daysEl) daysEl.innerText = String(days).padStart(2, '0');
+            if (hoursEl) hoursEl.innerText = String(hours).padStart(2, '0');
+            if (minsEl) minsEl.innerText = String(minutes).padStart(2, '0');
+            if (secsEl) secsEl.innerText = String(seconds).padStart(2, '0');
         }, 1000);
 
-        // Check on load if date has already passed
-        window.addEventListener("DOMContentLoaded", () => {
-            if (new Date().getTime() >= targetDate) {
-                countdownSection.style.display = "none";
-                triggerBigHeartBlast();
-            }
-        });
-
         function triggerBigHeartBlast() {
+            if (!countdownSection) return;
             gsap.to(countdownSection, { opacity: 0, duration: 0.5, onComplete: () => {
                 countdownSection.style.display = "none";
-                heartBlast.classList.remove("hidden");
+                if (heartBlast) heartBlast.classList.remove("hidden");
                 
                 gsap.to(heartBlast, { opacity: 1, duration: 0.3 });
                 setTimeout(() => {
                     gsap.to(heartBlast, { opacity: 0, duration: 0.5, onComplete: () => {
-                        heartBlast.classList.add("hidden");
+                        if (heartBlast) heartBlast.classList.add("hidden");
                         launchVideoPlayer();
                     }});
                 }, 1200);
@@ -189,6 +224,7 @@
         }
 
         function launchVideoPlayer() {
+            if (!videoSection || !anniversaryVideo) return;
             videoSection.classList.remove("hidden");
             gsap.to(videoSection, { opacity: 1, duration: 1 });
             
@@ -197,26 +233,31 @@
             let playPromise = anniversaryVideo.play();
             if (playPromise !== undefined) {
                 playPromise.catch(() => {
-                    playBtn.classList.remove("hidden");
+                    if (playBtn) playBtn.classList.remove("hidden");
                 });
             }
         }
 
         function startVideoPlayback() {
-            playBtn.classList.add("hidden");
-            anniversaryVideo.play();
+            if (playBtn) playBtn.classList.add("hidden");
+            if (anniversaryVideo) anniversaryVideo.play();
         }
 
         // When video ends, transition smoothly to the completion/proposal text screen
-        anniversaryVideo.addEventListener("ended", () => {
-            gsap.to(videoSection, { opacity: 0, duration: 1, onComplete: () => {
-                videoSection.classList.add("hidden");
-                completionSection.classList.remove("hidden");
-                gsap.to(completionSection, { opacity: 1, duration: 1 });
-            }});
-        });
+        if (anniversaryVideo) {
+            anniversaryVideo.addEventListener("ended", () => {
+                gsap.to(videoSection, { opacity: 0, duration: 1, onComplete: () => {
+                    if (videoSection) videoSection.classList.add("hidden");
+                    if (completionSection) {
+                        completionSection.classList.remove("hidden");
+                        gsap.to(completionSection, { opacity: 1, duration: 1 });
+                    }
+                }});
+            });
+        }
 
         function replayExperience() {
+            if (!completionSection) return;
             gsap.to(completionSection, { opacity: 0, duration: 0.5, onComplete: () => {
                 completionSection.classList.add("hidden");
                 launchVideoPlayer();
