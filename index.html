@@ -23,6 +23,20 @@
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center relative">
 
+    <!-- SECRET PASSCODE LOCK SCREEN -->
+    <div id="auth-screen" class="fixed inset-0 z-50 bg-[#0b0f19] flex flex-col items-center justify-center px-4">
+        <div class="bg-white/5 border border-pink-500/20 rounded-3xl p-8 backdrop-blur-md max-w-sm w-full text-center space-y-6 shadow-2xl">
+            <div class="text-4xl">🔐</div>
+            <h2 class="text-xl font-bold text-pink-300">Private & Secure</h2>
+            <p class="text-xs text-gray-400">Enter our secret passcode to view this special experience:</p>
+            <input type="password" id="passcode-input" placeholder="Enter passcode..." class="w-full bg-black/50 border border-pink-500/40 rounded-xl px-4 py-3 text-center text-white focus:outline-none focus:border-pink-500">
+            <button onclick="verifyPasscode()" class="w-full bg-pink-600 hover:bg-pink-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
+                Enter Our World ❤️
+            </button>
+            <p id="error-msg" class="text-xs text-red-400 hidden">Incorrect passcode, try again!</p>
+        </div>
+    </div>
+
     <!-- BACKGROUND AMBIENCE -->
     <div class="absolute inset-0 bg-gradient-to-br from-purple-950/40 via-black to-pink-950/30 pointer-events-none z-0"></div>
 
@@ -58,7 +72,7 @@
     </div>
 
     <!-- SECTION 2: HEART BLAST TRANSITION EFFECT -->
-    <div id="heart-blast" class="fixed inset-0 z-50 bg-pink-600 flex items-center justify-center hidden opacity-0 pointer-events-none">
+    <div id="heart-blast" class="fixed inset-0 z-40 bg-pink-600 flex items-center justify-center hidden opacity-0 pointer-events-none">
         <div class="text-6xl md:text-9xl animate-ping">💖</div>
     </div>
 
@@ -104,6 +118,28 @@
         const anniversaryVideo = document.getElementById("anniversary-video");
         const playBtn = document.getElementById("play-btn");
         const completionSection = document.getElementById("completion-section");
+
+        function verifyPasscode() {
+            const input = document.getElementById("passcode-input").value;
+            const secretCode = "sp291406"; 
+
+            if (input === secretCode) {
+                gsap.to("#auth-screen", { opacity: 0, duration: 0.5, onComplete: () => {
+                    document.getElementById("auth-screen").style.display = "none";
+                }});
+            } else {
+                const errorMsg = document.getElementById("error-msg");
+                errorMsg.classList.remove("hidden");
+                gsap.fromTo("#passcode-input", { x: -10 }, { x: 10, duration: 0.1, repeat: 3, yoyo: true });
+            }
+        }
+
+        // Allow pressing "Enter" key on keyboard to submit passcode
+        document.getElementById("passcode-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                verifyPasscode();
+            }
+        });
 
         // Update countdown timer every second
         const timerInterval = setInterval(() => {
